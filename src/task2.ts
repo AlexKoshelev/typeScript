@@ -43,38 +43,34 @@ interface UnnormalizedData {
   title: string;
   body: string;
 }
+
+// было дублирование интерфейсов, исправил
 interface NormalizedData {
   byId: {
-    [id: string]: { id: string; title: string; body: string };
+    [id: string]: UnnormalizedData;
   };
   allIds: string[];
 }
-
+interface NormalizedObject {
+  byId: {};
+  allIds: [];
+}
 const normalizeData = (
   unnormalizedData: UnnormalizedData[]
-): NormalizedData[] => {
-  const normalizeData: any = [];
-  unnormalizedData.forEach((data) => {
-    normalizeData.byId = {
-      ...normalizeData.byId,
-      [data.id]: { id: data.id, title: data.title, body: data.body },
-    };
-    normalizeData.allIds
-      ? normalizeData.allIds.push(data.id)
-      : (normalizeData.allIds = [data.id]);
-  });
-  return normalizeData as NormalizedData[];
+): NormalizedData => {
+  const posts = [...unnormalizedData];
+  const normalizeData: NormalizedData = { byId: {}, allIds: [] };
+  return posts.reduce(
+    (acc, d) => ({
+      byId: {
+        ...acc.byId,
+        [d.id]: { id: d.id, title: d.title, body: d.body },
+      },
+      allIds: [...acc.allIds, d.id],
+    }),
+    normalizeData
+  );
 };
 
 console.log(normalizeData(posts));
 console.log("Конец задачи 2");
-/**
- * {
- *    byId: {
- *      62e69d5a5458aac0ed320b35: { id: '...', title: '...', body: '...' },
- *      62e69d5a5458aac0ed320b1c: { id: '...', title: '...', body: '...' },
- *      ...
- *    },
- *    allIds: ['62e69d5a5458aac0ed320b35', '62e69d5a5458aac0ed320b1c', ...]
- * }
- */
