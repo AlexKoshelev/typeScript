@@ -7,12 +7,11 @@ interface InputParameters {
   months: number;
 }
 const totalPrice = (params: InputParameters): number => {
+  const price: number = params.price - (params.price * params.discount) / 100;
   if (params.isInstallment && params.months) {
-    return (
-      (params.price - (params.price * params.discount) / 100) / params.months
-    );
+    return price / params.months;
   } else {
-    return params.price - (params.price * params.discount) / 100;
+    return price;
   }
 };
 
