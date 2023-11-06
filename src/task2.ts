@@ -51,10 +51,7 @@ interface NormalizedData {
   };
   allIds: string[];
 }
-interface NormalizedObject {
-  byId: {};
-  allIds: [];
-}
+// перенписал функцию
 const normalizeData = (
   unnormalizedData: UnnormalizedData[]
 ): NormalizedData => {
