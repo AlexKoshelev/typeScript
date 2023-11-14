@@ -5,7 +5,7 @@ interface Data {
   id: number;
   email: string;
 }
-const getData = (COMMENTS_URL: string): Promise<Data[]> => {
+const getData = <T>(COMMENTS_URL: string): Promise<T[]> => {
   return fetch(COMMENTS_URL)
     .then((response) => response.json())
     .then((data) =>
@@ -15,7 +15,7 @@ const getData = (COMMENTS_URL: string): Promise<Data[]> => {
       }))
     );
 };
-getData(COMMENTS_URL).then((data) =>
+getData<Data>(COMMENTS_URL).then((data) =>
   data.forEach((d) => {
     console.log(`ID: + ${d.id}, email: ${d.email}`);
   })
